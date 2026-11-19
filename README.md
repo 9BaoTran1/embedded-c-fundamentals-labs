@@ -41,6 +41,9 @@ the fundamentals behind MCU firmware work:
    Short example showing why hardware-facing registers are commonly declared
    `volatile`.
 
+6. [GPIO button debounce lab](docs/gpio-debounce.md)
+   Follow an active-low input through a periodic sampler. Run the C tests for contact bounce, held buttons, release and 32-bit counter rollover. Includes STM32/FreeRTOS porting notes and interview exercises.
+
 ## Build and Run
 
 This repository builds with `gcc` and `make`.
@@ -78,5 +81,4 @@ firmware building blocks clearly."
 
 - add checksum validation for UART frames
 - add a timer-driven state machine example
-- add a simple debounce module
 - add a command parser with enum-based dispatch

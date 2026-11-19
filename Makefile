@@ -8,7 +8,8 @@ COMMON_SRCS := src/ring_buffer.c src/uart_parser.c src/device_state_machine.c
 TEST_TARGETS := \
 	$(TEST_DIR)/test_ring_buffer \
 	$(TEST_DIR)/test_uart_parser \
-	$(TEST_DIR)/test_state_machine
+	$(TEST_DIR)/test_state_machine \
+	$(TEST_DIR)/test_debounce
 EXAMPLE_TARGETS := \
 	$(EXAMPLE_DIR)/bitwise_flags_demo \
 	$(EXAMPLE_DIR)/volatile_polling_demo
@@ -18,10 +19,10 @@ EXAMPLE_TARGETS := \
 all: test examples
 
 test: $(TEST_TARGETS)
-	@for target in $(TEST_TARGETS); do ./$$target; done
+	@set -e; for target in $(TEST_TARGETS); do ./$$target; done
 
 examples: $(EXAMPLE_TARGETS)
-	@for target in $(EXAMPLE_TARGETS); do ./$$target; done
+	@set -e; for target in $(EXAMPLE_TARGETS); do ./$$target; done
 
 $(TEST_DIR) $(EXAMPLE_DIR):
 	@mkdir -p $@
@@ -34,6 +35,9 @@ $(TEST_DIR)/test_uart_parser: tests/test_uart_parser.c src/uart_parser.c | $(TES
 
 $(TEST_DIR)/test_state_machine: tests/test_state_machine.c src/device_state_machine.c | $(TEST_DIR)
 	$(CC) $(CFLAGS) $^ -o $@
+
+$(TEST_DIR)/test_debounce: tests/test_debounce.c src/debounce.c include/debounce.h | $(TEST_DIR)
+	$(CC) $(CFLAGS) $(filter %.c,$^) -o $@
 
 $(EXAMPLE_DIR)/bitwise_flags_demo: examples/bitwise_flags_demo.c | $(EXAMPLE_DIR)
 	$(CC) $(CFLAGS) $< -o $@
